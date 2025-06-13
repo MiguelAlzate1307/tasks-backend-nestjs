@@ -14,6 +14,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   @Transform(({ value }: { value: string }) => value.trim())
   @IsOptional()
-  @MaxLength(60)
   refresh_token?: string;
 }

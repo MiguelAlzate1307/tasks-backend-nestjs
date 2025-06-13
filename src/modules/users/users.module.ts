@@ -16,5 +16,6 @@ import { BcryptService } from 'src/providers/bcrypt.service';
       useClass: BcryptService,
     },
   ],
+  exports: [UsersService],
 })
 export class UsersModule {}

@@ -12,6 +12,7 @@ import { HashingService } from 'src/providers/hashing.service';
 import { RolesEnum } from './enums/roles.enum';
 import { UsersFiltersDto } from './dto/query/users-filters.dto';
 import { getResponsePaginated } from 'src/global/dto/filters-paginated.dto';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -47,17 +48,18 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    if (!!this.findOneByEmail(createUserDto.email))
+    if (!!(await this.findOneByEmail(createUserDto.email)))
       throw new BadRequestException('Email already exists');
 
-    if (!!this.findOneByUsername(createUserDto.username))
+    if (!!(await this.findOneByUsername(createUserDto.username)))
       throw new BadRequestException('Username already exists');
 
     createUserDto.password = await this.hashSer.hash(createUserDto.password);
 
     const newUser = this.usersRep.create(createUserDto);
 
-    const { password, ...user } = await this.usersRep.save(newUser);
+    const { password, refresh_token, ...user } =
+      await this.usersRep.save(newUser);
 
     return {
       ok: true,
@@ -66,7 +68,21 @@ export class UsersService {
   }
 
   findOneByEmail(email: string) {
-    return this.usersRep.findOne({ where: { email } });
+    return this.usersRep.findOne({
+      where: { email },
+      select: [
+        'id',
+        'name',
+        'username',
+        'email',
+        'password',
+        'role',
+        'refresh_token',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+      ],
+    });
   }
 
   findOneByUsername(username: string) {
@@ -127,7 +143,7 @@ export class UsersService {
       updateUserDto.password = await this.hashSer.hash(updateUserDto.password);
 
     if (updateUserDto.refresh_token)
-      updateUserDto.refresh_token = await this.hashSer.hash(
+      updateUserDto.refresh_token = this.hashSer.hashToken(
         updateUserDto.refresh_token,
       );
 

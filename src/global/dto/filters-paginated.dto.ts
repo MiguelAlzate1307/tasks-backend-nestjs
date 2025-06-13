@@ -58,7 +58,7 @@ export const getResponsePaginated = async (
       typeof value === 'string' &&
       !key.includes('Enum') &&
       !key.includes('id') &&
-      isDate(value)
+      !isDate(value)
     )
       query.andWhere(`LOWER(${alias}.${key}) ILIKE LOWER(:${key})`, {
         [key]: `%${value}%`,

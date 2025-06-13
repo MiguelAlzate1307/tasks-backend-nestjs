@@ -14,7 +14,7 @@ import { isDate } from '../utils/is-date.util';
 import { isTwoDatesArray } from '../utils/is-two-dates-array.validator';
 
 export abstract class FiltersPaginatedDto {
-  orderCriteria?: string;
+  abstract orderCriteria?: string;
 
   @IsString()
   @Transform(({ value }: { value: string }) => value.trim())

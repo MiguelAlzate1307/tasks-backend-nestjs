@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import config from './config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccTokenGuard } from './global/guards/acc-token.guard';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AccTokenGuard } from './global/guards/acc-token.guard';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    TasksModule,
   ],
   providers: [
     {

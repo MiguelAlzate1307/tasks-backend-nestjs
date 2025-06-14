@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { RolesEnum } from '../enums/roles.enum';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 
 @Entity('users')
 export class User {
@@ -30,6 +32,9 @@ export class User {
 
   @Column({ type: 'text', nullable: true, select: false })
   refresh_token: string;
+
+  @OneToMany(() => Task, (tasks) => tasks.user, { cascade: ['soft-remove'] })
+  tasks: Task[];
 
   @CreateDateColumn()
   created_at: Date;

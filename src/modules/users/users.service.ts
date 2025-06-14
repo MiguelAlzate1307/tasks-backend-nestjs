@@ -156,7 +156,7 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const { user } = await this.findOne(id, []);
+    const { user } = await this.findOne(id, ['tasks']);
 
     await this.usersRep.softRemove(user);
 

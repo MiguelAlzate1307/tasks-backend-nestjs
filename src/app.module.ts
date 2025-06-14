@@ -7,6 +7,7 @@ import config from './config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccTokenGuard } from './global/guards/acc-token.guard';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { RolesGuard } from './global/guards/roles.guard';
 
 @Module({
   imports: [
@@ -23,6 +24,10 @@ import { TasksModule } from './modules/tasks/tasks.module';
     {
       provide: APP_GUARD,
       useClass: AccTokenGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

@@ -3,7 +3,10 @@ import { UsersService } from './users.service';
 import { UsersFiltersDto } from './dto/query/users-filters.dto';
 import { IdParamDto } from 'src/global/dto/id-param.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { Roles } from 'src/global/decorators/roles.decorator';
+import { RolesEnum } from './enums/roles.enum';
 
+@Roles(RolesEnum.ADMIN)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

@@ -108,6 +108,15 @@ export class AuthService {
     };
   }
 
+  async profile({ id }: TokenPayload) {
+    const { user } = await this.usersSer.findOne(id);
+
+    return {
+      ok: true,
+      user,
+    };
+  }
+
   private async getTokens(id: string, role: RolesEnum) {
     const payload: TokenPayload = { id, role };
 

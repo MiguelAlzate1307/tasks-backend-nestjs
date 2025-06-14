@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/global/decorators/public.decorator';
 import { LocalGuard } from './guards/local.guard';
@@ -44,5 +44,10 @@ export class AuthController {
   @Post('logout')
   logout(@Req() req: Request) {
     return this.authService.logout(req.user as TokenPayload);
+  }
+
+  @Get('profile')
+  profile(@Req() req: Request) {
+    return this.authService.profile(req.user as TokenPayload);
   }
 }
